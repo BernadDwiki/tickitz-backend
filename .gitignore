@@ -1,0 +1,7 @@
+tmp
+public/docs/*
+public/img/*
+!public/**/README.md
+
+.env
+.air.toml

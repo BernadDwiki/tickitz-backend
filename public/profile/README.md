@@ -1,0 +1,1 @@
+profile picture and cover photo for the user.
