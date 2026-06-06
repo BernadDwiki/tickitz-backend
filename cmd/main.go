@@ -11,6 +11,19 @@ import (
 	"github.com/tickitz-backend/internal/router"
 )
 
+// @title						Backend Tickitz API
+// @version						1.0
+// @description					API documentation for Tickitz backend application
+
+// @license.name				MIT
+
+// @host						localhost:8080
+// @BasePath					/
+
+// @securityDefinitions.apikey	ApiKeyAuth
+// @in							header
+// @name						Authorization
+// @description					Bearer token used for authorization. Example: Bearer <token>
 func main() {
 	fmt.Println("masuk")
 	if err := godotenv.Load(); err != nil {
