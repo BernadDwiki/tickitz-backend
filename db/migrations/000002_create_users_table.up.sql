@@ -13,6 +13,7 @@ CREATE TABLE "users" (
   "photo" varchar,
   "point" int DEFAULT 0,
   "activation_token" varchar,
+  "token_expire_at" timestamp,
   "verified_at" timestamp,
   "role" "roleUser" DEFAULT 'user',
   "loyalty_tier_id" bigint,
