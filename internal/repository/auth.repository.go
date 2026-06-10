@@ -134,7 +134,7 @@ func (r *AuthRepository) UpdateOTP(ctx context.Context, email string, token stri
 }
 
 func (r *AuthRepository) GetUserPassword(ctx context.Context, email string) (model.GetUserLogin, error) {
-	sql := `SELECT id, password, COALESCE(photo, ''), role FROM users WHERE email=$1`
+	sql := `SELECT id, password, COALESCE(photo, ''), role, verified_at IS NOT NULL FROM users WHERE email=$1`
 
 	var user model.GetUserLogin
 
@@ -143,6 +143,7 @@ func (r *AuthRepository) GetUserPassword(ctx context.Context, email string) (mod
 		&user.Password,
 		&user.Photo,
 		&user.Role,
+		&user.IsVerified,
 	)
 
 	if err != nil {

@@ -4,12 +4,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/tickitz-backend/internal/controller"
+	"github.com/tickitz-backend/internal/middleware"
 	"github.com/tickitz-backend/internal/repository"
 	"github.com/tickitz-backend/internal/service"
 )
 
-func RegisterMovieRouter(router *gin.Engine, db *pgxpool.Pool) {
-	adminRouter := router.Group("/admin")
+func RegisterMovieRouter(router *gin.Engine, db *pgxpool.Pool, authCache *repository.AuthCacheRepository) {
+	adminRouter := router.Group("/admin", middleware.VerifyToken(authCache), middleware.AuthorizeRoles("admin"))
 	movieRouter := adminRouter.Group("/movies")
 	movieRepo := repository.NewMovieRepository(db)
 	movieService := service.NewMovieService(movieRepo)
