@@ -187,7 +187,7 @@ func (s *AuthService) Login(ctx context.Context, email, password string) (dto.Lo
 		return dto.LoginResponse{}, errs.ErrInvalidCredentials
 	}
 
-	claims := pkg.NewClaims(user.Id, email)
+	claims := pkg.NewClaims(user.Id, email, user.Role)
 
 	token, err := claims.GenJWT()
 	if err != nil {

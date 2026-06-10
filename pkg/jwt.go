@@ -12,13 +12,15 @@ import (
 type Claims struct {
 	Id    int
 	Email string
+	Role  string
 	jwt.RegisteredClaims
 }
 
-func NewClaims(id int, email string) *Claims {
+func NewClaims(id int, email string, role string) *Claims {
 	return &Claims{
 		Id:    id,
 		Email: email,
+		Role:  role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    os.Getenv("JWT_ISSUER"),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(30 * time.Minute)),
