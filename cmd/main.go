@@ -45,7 +45,7 @@ func main() {
 	defer rdb.Close()
 	log.Println("Redis Connected")
 
-	router.InitRouter(app, db)
+	router.InitRouter(app, db, rdb)
 	app.Run(fmt.Sprintf("%s:%s", os.Getenv("APP_HOST"), os.Getenv("APP_PORT")))
 
 }
