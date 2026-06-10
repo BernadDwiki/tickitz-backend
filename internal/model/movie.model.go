@@ -16,3 +16,12 @@ type Movie struct {
 	CreatedAt        time.Time  `db:"created_at"`
 	UpdatedAt        *time.Time `db:"updated_at"`
 }
+
+type MoviePreviewResponse struct {
+	ID          int64     `db:"id"`
+	Name        string    `db:"name"`
+	Slug        string    `db:"slug"`
+	Image       string    `db:"image"`
+	ReleaseDate time.Time `db:"release_date"`
+	Categories  []string  `db:"categories"`
+}

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -160,5 +161,63 @@ func (c *MovieHomeController) GetShowtimes(ctx *gin.Context) {
 		http.StatusOK,
 		"movie showtimes retrieved successfully",
 		showtimes,
+	)
+}
+
+// GetMoviesWithFilter godoc
+//
+//	@Summary		Get movies with filter and pagination
+//	@Description	Get list of movies with optional filters by category, name, and pagination.
+//	@Tags			Movies
+//	@Accept			json
+//	@Produce		json
+//	@Param	category	query		[]string	false	"Movie Categories"
+//	@Param	name		query		string		false	"Movie Name"
+//	@Param	page		query		int			false	"Page Number"
+//	@Param	limit		query		int			false	"Items Per Page"
+//	@Success		200			{object}	dto.SuccessResponse
+//	@Failure		400			{object}	dto.ErrorResponse
+//	@Failure		500			{object}	dto.ErrorResponse
+//	@Router			/movies [get]
+func (c *MovieHomeController) GetMoviesWithFilter(ctx *gin.Context) {
+	var param dto.MovieParamsRequest
+
+	if err := ctx.ShouldBindQuery(&param); err != nil {
+		log.Printf(
+			"[MovieHomeController][GetMoviesWithFilter] bind query error: %v",
+			err,
+		)
+
+		response.Error(
+			ctx,
+			http.StatusBadRequest,
+			err.Error(),
+		)
+		return
+	}
+
+	data, err := c.movieHomeService.GetAllMovies(
+		ctx.Request.Context(),
+		param,
+	)
+	if err != nil {
+		log.Printf(
+			"[MovieHomeController][GetMoviesWithFilter] service error: %v",
+			err,
+		)
+
+		response.Error(
+			ctx,
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+		return
+	}
+
+	response.Success(
+		ctx,
+		http.StatusOK,
+		"success to get movies",
+		data,
 	)
 }
