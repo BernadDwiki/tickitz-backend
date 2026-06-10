@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -161,4 +162,33 @@ func (c *MovieHomeController) GetShowtimes(ctx *gin.Context) {
 		"movie showtimes retrieved successfully",
 		showtimes,
 	)
+}
+
+func (c *MovieHomeController) GetMoviesWithFilter(ctx *gin.Context) {
+	var param dto.MovieParamsRequest
+
+	if err := ctx.ShouldBindQuery(&param); err != nil {
+		log.Printf("[MovieHomeController][GetMoviesWithFilter] bind query error: %v", err)
+
+		response.Error(
+			ctx,
+			http.StatusBadRequest,
+			err.Error(),
+		)
+		return
+	}
+
+	data, err := c.movieHomeService.GetAllMovies(ctx.Request.Context(), param)
+	if err != nil {
+		log.Printf("[MovieHomeController][GetMoviesWithFilter] service error: %v", err)
+
+		response.Error(
+			ctx,
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+		return
+	}
+
+	response.Success(ctx, http.StatusOK, "success to get movies", data)
 }

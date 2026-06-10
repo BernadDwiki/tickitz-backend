@@ -2,8 +2,12 @@ package service
 
 import (
 	"context"
+	"log"
 
 	"github.com/tickitz-backend/internal/dto"
+	"github.com/tickitz-backend/internal/errs"
+	"github.com/tickitz-backend/internal/model"
+
 	"github.com/tickitz-backend/internal/repository"
 )
 
@@ -78,4 +82,19 @@ func (s *MovieHomeService) GetShowtimes(
 	ctx context.Context,
 ) ([]dto.MovieShowtimeRow, error) {
 	return s.movieScheduleRepository.FindTime(ctx)
+}
+
+func (s *MovieHomeService) GetAllMovies(
+	ctx context.Context,
+	req dto.MovieParamsRequest,
+) ([]model.MoviePreviewResponse, error) {
+
+	movies, err := s.movieHomeRepository.GetAllMoviesByFilter(ctx, req)
+	if err != nil {
+		log.Printf("[MovieHomeService][GetAllMovies] repository error: %v", err)
+
+		return nil, errs.ErrGetMovies
+	}
+
+	return movies, nil
 }
