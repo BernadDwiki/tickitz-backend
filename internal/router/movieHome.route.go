@@ -17,9 +17,12 @@ func HomeMovieRouter(router *gin.Engine, db *pgxpool.Pool) {
 	movieHomeService := service.NewMovieHomeService(movieHomeRepository, movieScheduleRepository)
 	movieHomeController := controller.NewMovieHomeController(movieHomeService)
 
-	movieGroup.GET("/", movieHomeController.GetMoviesWithFilter)
-	movieGroup.GET("/:slug", movieHomeController.GetMovieBySlug)
-	movieGroup.GET("/:slug/schedules", movieHomeController.GetMovieSchedulesBySlug)
+	movieGroup.GET("", movieHomeController.GetMoviesWithFilter)
 	movieGroup.GET("/showtimes", movieHomeController.GetShowtimes)
 	movieGroup.GET("/locations", movieHomeController.GetLocations)
+	movieGroup.GET("/upcoming", movieHomeController.GetUpcomingMovies)
+	movieGroup.GET("/:slug", movieHomeController.GetMovieBySlug)
+	movieGroup.GET("/:slug/schedule-options", movieHomeController.GetMovieScheduleOptionsBySlug)
+	movieGroup.GET("/:slug/schedules", movieHomeController.GetMovieSchedulesBySlug)
+
 }
