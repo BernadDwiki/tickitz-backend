@@ -235,7 +235,7 @@ func (c *orderController) GetOrderQR(ctx *gin.Context) {
 	buf := bytes.NewBuffer(nil)
 	writer := nopWriteCloser{Writer: buf}
 
-	w := standard.NewWithWriter(writer, standard.WithLogoImageFileJPEG("./public/payment/logo-qr.jpg"), standard.WithQRWidth(25), standard.WithCircleShape())
+	w := standard.NewWithWriter(writer, standard.WithLogoImageFileJPEG("./public/payment/logo-qr.jpg"), standard.WithQRWidth(10), standard.WithCircleShape())
 
 	if err := qr.Save(w); err != nil {
 		writeOrderError(ctx, err, "failed to generate ticket qr")
